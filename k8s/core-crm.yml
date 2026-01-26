@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: crm-core
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: crm-core
+  template:
+    metadata:
+      labels:
+        app: crm-core
+    spec:
+      containers:
+        - name: crm-core
+          image: your-docker-hub/crm-core:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://postgres_db:5432/kafka_db
+            - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
+              value: kafka_broker:9092
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: crm-core-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: crm-core
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080

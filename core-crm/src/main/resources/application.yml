@@ -1,0 +1,35 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/kafka_db
+    username: user
+    password: password
+  jpa:
+    defer-datasource-initialization: true
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  sql:
+    init:
+      mode: always
+
+
+  kafka:
+    listener:
+      type: batch
+    consumer:
+      max-poll-records: 500
+      fetch-min-size: 1048576
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, metrics
+  endpoint:
+    health:
+      show-details: always
+      probes:
+        enabled: true
+
+server:
+  port: 8081
