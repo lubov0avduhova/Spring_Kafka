@@ -2,7 +2,7 @@ package org.example.pricehistory.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.example.pricehistory.entity.EstateDto;
+import org.example.pricehistory.dto.EstateDto;
 import org.example.pricehistory.entity.PriceHistory;
 import org.example.pricehistory.repository.PriceHistoryRepository;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -24,7 +24,6 @@ public class PriceHistoryListener {
     )
     public void handlePriceHistory(List<EstateDto> estateDtos) {
         try {
-            log.info("Пытаюсь сохранить батч истории: {} записей", estateDtos.size());
 
             List<PriceHistory> entities = estateDtos.stream()
                     .map(dto -> new PriceHistory(
@@ -41,9 +40,7 @@ public class PriceHistoryListener {
             log.info("Батч истории успешно сохранен!");
 
         } catch (Exception e) {
-            log.error("!!! КРИТИЧЕСКАЯ ОШИБКА ПРИ СОХРАНЕНИИ БАТЧА !!!");
-            log.error("Причина: {}", e.getMessage());
-            e.printStackTrace();
+            log.error("Ошибка при сохранении батча: {}", e.getMessage());
             throw e;
         }
     }

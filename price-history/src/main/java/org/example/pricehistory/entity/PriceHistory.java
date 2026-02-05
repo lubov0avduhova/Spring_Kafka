@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 public class PriceHistory {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "price_hist_seq")
-    @SequenceGenerator(name = "price_hist_seq", allocationSize = 1)
+    @SequenceGenerator(name = "price_hist_seq", allocationSize = 50)
     private Long id;
 
     private String cadastr;
