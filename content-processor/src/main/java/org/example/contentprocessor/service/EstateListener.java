@@ -1,6 +1,7 @@
 package org.example.contentprocessor.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.example.contentprocessor.dto.EstateDto;
 import org.example.contentprocessor.entity.Estate;
 import org.example.contentprocessor.repository.EstateRepository;
@@ -13,6 +14,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class EstateListener {
     private final EstateRepository estateRepository;
 
@@ -38,5 +40,6 @@ public class EstateListener {
         }
 
         estateRepository.saveAll(estateEntity);
+        log.info("Размер сохраненного батчинга: " + estateEntity.size());
     }
 }

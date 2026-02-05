@@ -25,7 +25,7 @@ public class ExcelParsingService {
     private String topicName;
 
     public void parseAndSend(MultipartFile file, String source) {
-        System.out.println("Продюсер начал обработку");
+        log.info("Продюсер начал обработку");
         try (Workbook workbook = WorkbookFactory.create(file.getInputStream())) {
             Sheet sheet = workbook.getSheetAt(0);
 
@@ -46,15 +46,6 @@ public class ExcelParsingService {
                 Map<MetricName, ? extends Metric> metrics = kafkaTemplate.getProducerFactory()
                         .createProducer()
                         .metrics();
-
-                metrics.forEach((name, metric) -> {
-                    if ("batch-size-avg".equals(name.name())) {
-                        System.out.println("Средний размер батча: " + metric.metricValue());
-                    }
-                    if ("records-per-batch-avg".equals(name.name())) {
-                        System.out.println("Среднее кол-во записей в батче: " + metric.metricValue());
-                    }
-                });
             }
         } catch (Exception e) {
             throw new RuntimeException("Ошибка при чтении Excel файла: " + e.getMessage());
