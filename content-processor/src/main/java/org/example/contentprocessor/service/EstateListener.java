@@ -7,6 +7,7 @@ import org.example.contentprocessor.repository.EstateRepository;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,6 +21,7 @@ public class EstateListener {
             groupId = "${spring.kafka.consumer.group-id}"
     )
     public void handleBatch(List<EstateDto> dtos) {
+        List<Estate> estateEntity = new ArrayList<>(dtos.size());
         for (EstateDto dto : dtos) {
             Optional<Estate> existing = estateRepository.findByCadastr(dto.getCadastr());
 
@@ -32,7 +34,9 @@ public class EstateListener {
                 entity.setCadastr(dto.getCadastr());
                 entity.setPrice(dto.getPrice());
             }
-            estateRepository.save(entity);
+            estateEntity.add(entity);
         }
+
+        estateRepository.saveAll(estateEntity);
     }
 }
