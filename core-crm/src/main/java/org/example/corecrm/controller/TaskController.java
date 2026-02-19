@@ -1,0 +1,45 @@
+package org.example.corecrm.controller;
+
+import lombok.RequiredArgsConstructor;
+import org.example.corecrm.dto.task.TaskCreateDto;
+import org.example.corecrm.dto.task.TaskDto;
+import org.example.corecrm.dto.task.TaskUpdateDto;
+import org.example.corecrm.service.TasksService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/tasks")
+@RequiredArgsConstructor
+public class TaskController {
+    private final TasksService tasksService;
+
+    @GetMapping("/{id}")
+    public TaskDto getTaskById(@PathVariable(name = "id") Long id) {
+        return tasksService.getTaskById(id);
+    }
+
+    @GetMapping
+    public List<TaskDto> getAllTasks() {
+        return tasksService.findAllTasks();
+    }
+
+    @PostMapping
+    public ResponseEntity<TaskDto> createTask(@RequestBody TaskCreateDto task) {
+        return new ResponseEntity<>(tasksService.createTask(task), HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{id}")
+    public TaskDto updateTask(@PathVariable(name = "id") Long id, @RequestBody TaskUpdateDto task) {
+        return tasksService.updateTask(id, task);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteTask(@PathVariable(name = "id") Long id) {
+        tasksService.deleteTask(id);
+    }
+}

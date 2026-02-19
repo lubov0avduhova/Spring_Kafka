@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: price-history
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: price-history
+  template:
+    metadata:
+      labels:
+        app: price-history
+    spec:
+      containers:
+        - name: price-history
+          image: your-docker-hub/price-history:latest
+          ports:
+            - containerPort: 8083
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://postgres_db:5432/kafka_db
+            - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
+              value: kafka_broker:9092
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: price-history-service
+spec:
+  selector:
+    app: price-history
+  ports:
+    - protocol: TCP
+      port: 8083
+      targetPort: 8083
