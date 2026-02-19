@@ -1,8 +1,11 @@
 package org.example.corecrm.service;
 
 import lombok.RequiredArgsConstructor;
+import org.example.corecrm.dto.TaskDto;
+import org.example.corecrm.dto.TaskUpdateDto;
 import org.example.corecrm.entity.Task;
 import org.example.corecrm.exception.TaskNotFoundException;
+import org.example.corecrm.mapping.TaskMapper;
 import org.example.corecrm.repository.TasksRepository;
 import org.springframework.stereotype.Service;
 
@@ -12,32 +15,37 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TasksService {
     private final TasksRepository tasksRepository;
+    private final TaskMapper mapper;
 
-    public Task getTaskById(Long id) {
-        return tasksRepository.findById(id).orElseThrow(() -> new TaskNotFoundException(id));
+    public TaskDto getTaskById(Long id) {
+        return mapper.toDto(tasksRepository.findById(id).orElseThrow(() -> new TaskNotFoundException(id)));
     }
 
-    public List<Task> findAllTasks() {
-        return tasksRepository.findAll();
+    public List<TaskDto> findAllTasks() {
+        return mapper.toListDto(tasksRepository.findAll());
     }
 
-    public Task createTask(Task task) {
-        return tasksRepository.save(task);
+    public TaskDto createTask(TaskDto task) {
+        return mapper.toDto(tasksRepository.save(mapper.toEntity(task)));
     }
 
-    public Task updateTask(Long id, Task task) {
-        return tasksRepository.findById(id)
-                .map(existingTask -> {
-                    existingTask.setName(task.getName());
-                    existingTask.setClosed(task.isClosed());
-                    existingTask.setCreatedAt(task.getCreatedAt());
-
-                    return tasksRepository.save(existingTask);
-                })
-                .orElseThrow(() -> new TaskNotFoundException(id));
+    public TaskDto updateTask(Long id, TaskUpdateDto task) {
+        return mapper.toDto(tasksRepository.findById(id)
+                .map(existingTask ->
+                        tasksRepository.save(updateByDto(task))
+                )
+                .orElseThrow(() -> new TaskNotFoundException(id)));
     }
 
     public void deleteTask(Long id) {
         tasksRepository.deleteById(id);
+    }
+
+    private Task updateByDto(TaskUpdateDto dto) {
+        Task task = new Task();
+        task.setName(dto.getName());
+        task.setClosed(dto.isClosed());
+        task.setCreatedAt(dto.getCreatedAt());
+        return task;
     }
 }

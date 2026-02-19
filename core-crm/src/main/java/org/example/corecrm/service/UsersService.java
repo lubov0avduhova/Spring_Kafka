@@ -1,8 +1,11 @@
 package org.example.corecrm.service;
 
 import lombok.RequiredArgsConstructor;
+import org.example.corecrm.dto.UserDto;
+import org.example.corecrm.dto.UserUpdateDto;
 import org.example.corecrm.entity.User;
 import org.example.corecrm.exception.UserNotFoundException;
+import org.example.corecrm.mapping.UsersMapper;
 import org.example.corecrm.repository.UsersRepository;
 import org.springframework.stereotype.Service;
 
@@ -12,31 +15,37 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UsersService {
     private final UsersRepository usersRepository;
+    private final UsersMapper mapper;
 
-    public User getUserById(Long userId) {
-        return usersRepository.findById(userId).orElseThrow(() -> new UserNotFoundException(userId));
+    public UserDto getUserById(Long userId) {
+        return mapper.toDto(usersRepository.findById(userId).orElseThrow(() -> new UserNotFoundException(userId)));
     }
 
-    public List<User> findAllUsers() {
-        return usersRepository.findAll();
+    public List<UserDto> findAllUsers() {
+        return mapper.toListDto(usersRepository.findAll());
     }
 
-    public User createUser(User user) {
-        return usersRepository.save(user);
+    public UserDto createUser(UserDto user) {
+        return mapper.toDto(usersRepository.save(mapper.toEntity(user)));
     }
 
-    public User updateUser(Long id, User user) {
-        return usersRepository.findById(id)
-                .map(existingUser -> {
-                    existingUser.setName(user.getName());
-                    existingUser.setEmail(user.getEmail());
-
-                    return usersRepository.save(existingUser);
-                })
-                .orElseThrow(() -> new UserNotFoundException(id));
+    public UserDto updateUser(Long id, UserUpdateDto user) {
+        return mapper.toDto(usersRepository.findById(id)
+                .map(existingUser ->
+                        usersRepository.save(updateByDto(user))
+                )
+                .orElseThrow(() -> new UserNotFoundException(id)));
     }
 
     public void deleteUser(Long id) {
         usersRepository.deleteById(id);
+    }
+
+
+    private User updateByDto(UserUpdateDto dto) {
+        User user = new User();
+        user.setName(dto.getName());
+        user.setEmail(dto.getEmail());
+        return user;
     }
 }

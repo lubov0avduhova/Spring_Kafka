@@ -3,7 +3,6 @@ package org.example.corecrm.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
-import org.example.corecrm.dto.BuildingCreateDto;
 import org.example.corecrm.dto.BuildingDto;
 import org.example.corecrm.entity.Building;
 import org.example.corecrm.exception.BuildingNotFoundException;
@@ -31,7 +30,7 @@ public class BuildingService {
         return mapper.toListDto(buildingRepository.findAll());
     }
 
-    public BuildingDto createBuilding(BuildingCreateDto building) {
+    public BuildingDto createBuilding(BuildingDto building) {
         return mapper.toDto(buildingRepository.save(mapper.toEntity(building)));
     }
 

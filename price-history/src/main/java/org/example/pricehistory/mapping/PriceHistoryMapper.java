@@ -8,17 +8,22 @@ import java.util.List;
 
 @Component
 public class PriceHistoryMapper {
+
+    public PriceHistoryDto toDto(PriceHistory priceHistory) {
+        return PriceHistoryDto.builder()
+                        .id(priceHistory.getId())
+                        .cadastr(priceHistory.getCadastr())
+                        .type(priceHistory.getType())
+                        .square(priceHistory.getSquare())
+                        .price(priceHistory.getPrice())
+                        .source(priceHistory.getSource())
+                        .createdAt(priceHistory.getCreatedAt())
+                        .build();
+    }
+
     public List<PriceHistoryDto> entityToDto(List<PriceHistory> priceHistories) {
         return priceHistories.stream()
-                .map(entity -> PriceHistoryDto.builder()
-                        .id(entity.getId())
-                        .cadastr(entity.getCadastr())
-                        .type(entity.getType())
-                        .square(entity.getSquare())
-                        .price(entity.getPrice())
-                        .source(entity.getSource())
-                        .createdAt(entity.getCreatedAt())
-                        .build()).toList();
-
+                .map(this::toDto)
+                .toList();
     }
 }

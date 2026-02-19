@@ -1,7 +1,6 @@
 package org.example.corecrm.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.example.corecrm.dto.BuildingCreateDto;
 import org.example.corecrm.dto.BuildingDto;
 import org.example.corecrm.service.BuildingService;
 import org.springframework.http.HttpStatus;
@@ -28,7 +27,7 @@ public class BuildingController {
     }
 
     @PostMapping
-    public ResponseEntity<BuildingDto> createBuilding(@RequestBody BuildingCreateDto building) {
+    public ResponseEntity<BuildingDto> createBuilding(@RequestBody BuildingDto building) {
         return new ResponseEntity<>(buildingService.createBuilding(building), HttpStatus.CREATED);
     }
 

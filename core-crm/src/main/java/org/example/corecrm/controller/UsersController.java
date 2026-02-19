@@ -1,7 +1,8 @@
 package org.example.corecrm.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.example.corecrm.entity.User;
+import org.example.corecrm.dto.UserDto;
+import org.example.corecrm.dto.UserUpdateDto;
 import org.example.corecrm.service.UsersService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,26 +17,23 @@ public class UsersController {
     private final UsersService usersService;
 
     @GetMapping("/{id}")
-    //todo заменить на dto
-    public User getUserById(@PathVariable(name = "id") Long id) {
+    public UserDto getUserById(@PathVariable(name = "id") Long id) {
         return usersService.getUserById(id);
     }
 
     @GetMapping
-    //todo заменить на dto
-    public List<User> getAllUsers() {
+    public List<UserDto> getAllUsers() {
         return usersService.findAllUsers();
     }
 
     @PostMapping
-    //todo заменить на dto
-    public ResponseEntity<User> createUser(@RequestBody User user) {
+    public ResponseEntity<UserDto> createUser(@RequestBody UserDto user) {
         return new ResponseEntity<>(usersService.createUser(user), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
     //todo заменить на dto
-    public User updateUser(@PathVariable(name = "id") Long id, @RequestBody User user) {
+    public UserDto updateUser(@PathVariable(name = "id") Long id, @RequestBody UserUpdateDto user) {
         return usersService.updateUser(id, user);
     }
 
