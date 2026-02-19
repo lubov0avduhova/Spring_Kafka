@@ -1,6 +1,7 @@
 package org.example.corecrm.mapping;
 
-import org.example.corecrm.dto.BuildingDto;
+import org.example.corecrm.dto.building.BuildingCreateDto;
+import org.example.corecrm.dto.building.BuildingDto;
 import org.example.corecrm.entity.Building;
 import org.springframework.stereotype.Component;
 
@@ -21,7 +22,7 @@ public class BuildingMapper {
                 .build();
     }
 
-    public Building toEntity(BuildingDto building) {
+    public Building toEntity(BuildingCreateDto building) {
         return Building.builder()
                 .cadastr(building.getCadastr())
                 .type(building.getType())

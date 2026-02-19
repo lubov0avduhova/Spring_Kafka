@@ -1,4 +1,4 @@
-package org.example.corecrm.dto;
+package org.example.corecrm.dto.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,8 +9,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UserDto {
-    private Long id;
+public class UserCreateDto {
     private String name;
     private String email;
+
+    private Long taskId;
+    private Long buildingId;
 }

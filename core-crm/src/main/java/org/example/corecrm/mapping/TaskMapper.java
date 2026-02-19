@@ -1,6 +1,7 @@
 package org.example.corecrm.mapping;
 
-import org.example.corecrm.dto.TaskDto;
+import org.example.corecrm.dto.task.TaskCreateDto;
+import org.example.corecrm.dto.task.TaskDto;
 import org.example.corecrm.entity.Task;
 import org.springframework.stereotype.Component;
 
@@ -18,9 +19,8 @@ public class TaskMapper {
                 .build();
     }
 
-    public Task toEntity(TaskDto taskDto) {
+    public Task toEntity(TaskCreateDto taskDto) {
         return Task.builder()
-                .id(taskDto.getId())
                 .name(taskDto.getName())
                 .createdAt(taskDto.getCreatedAt())
                 .isClosed(taskDto.isClosed())

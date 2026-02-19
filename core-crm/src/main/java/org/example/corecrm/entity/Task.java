@@ -24,4 +24,12 @@ public class Task {
 
     @Column(name = "is_closed")
     private boolean isClosed;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "building_id")
+    private Building building;
 }

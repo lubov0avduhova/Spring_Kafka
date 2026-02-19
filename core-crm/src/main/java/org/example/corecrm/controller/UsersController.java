@@ -1,8 +1,9 @@
 package org.example.corecrm.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.example.corecrm.dto.UserDto;
-import org.example.corecrm.dto.UserUpdateDto;
+import org.example.corecrm.dto.user.UserCreateDto;
+import org.example.corecrm.dto.user.UserDto;
+import org.example.corecrm.dto.user.UserUpdateDto;
 import org.example.corecrm.service.UsersService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,12 +28,11 @@ public class UsersController {
     }
 
     @PostMapping
-    public ResponseEntity<UserDto> createUser(@RequestBody UserDto user) {
+    public ResponseEntity<UserDto> createUser(@RequestBody UserCreateDto user) {
         return new ResponseEntity<>(usersService.createUser(user), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    //todo заменить на dto
     public UserDto updateUser(@PathVariable(name = "id") Long id, @RequestBody UserUpdateDto user) {
         return usersService.updateUser(id, user);
     }
@@ -42,6 +42,4 @@ public class UsersController {
     public void deleteUser(@PathVariable(name = "id") Long id) {
         usersService.deleteUser(id);
     }
-
-
 }

@@ -1,8 +1,9 @@
 package org.example.corecrm.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.example.corecrm.dto.TaskDto;
-import org.example.corecrm.dto.TaskUpdateDto;
+import org.example.corecrm.dto.task.TaskCreateDto;
+import org.example.corecrm.dto.task.TaskDto;
+import org.example.corecrm.dto.task.TaskUpdateDto;
 import org.example.corecrm.service.TasksService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +28,7 @@ public class TaskController {
     }
 
     @PostMapping
-    public ResponseEntity<TaskDto> createTask(@RequestBody TaskDto task) {
+    public ResponseEntity<TaskDto> createTask(@RequestBody TaskCreateDto task) {
         return new ResponseEntity<>(tasksService.createTask(task), HttpStatus.CREATED);
     }
 

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 @Table(name = "building")
@@ -28,4 +29,11 @@ public class Building {
     private Long version;
 
     private String assignedManager;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @OneToMany(mappedBy = "building")
+    private List<Task> tasks;
 }

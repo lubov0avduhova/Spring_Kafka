@@ -1,4 +1,4 @@
-package org.example.corecrm.dto;
+package org.example.corecrm.dto.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

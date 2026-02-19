@@ -1,6 +1,8 @@
 package org.example.corecrm.mapping;
 
-import org.example.corecrm.dto.UserDto;
+import org.example.corecrm.dto.user.UserCreateDto;
+import org.example.corecrm.dto.user.UserDto;
+import org.example.corecrm.dto.user.UserUpdateDto;
 import org.example.corecrm.entity.User;
 import org.springframework.stereotype.Component;
 
@@ -17,9 +19,8 @@ public class UsersMapper {
                 .build();
     }
 
-    public User toEntity(UserDto user) {
+    public User toEntity(UserCreateDto user) {
         return User.builder()
-                .id(user.getId())
                 .name(user.getName())
                 .email(user.getEmail())
                 .build();

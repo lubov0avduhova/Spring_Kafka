@@ -1,4 +1,4 @@
-package org.example.corecrm.dto;
+package org.example.corecrm.dto.building;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,8 +9,7 @@ import java.math.BigDecimal;
 @Data
 @AllArgsConstructor
 @Builder
-public class BuildingDto {
-    private Long id;
+public class BuildingUpdateDto {
     private String cadastr;
     private String type;
     private Double square;
